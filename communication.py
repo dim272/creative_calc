@@ -12,11 +12,11 @@ class Create:
         while True:
             name = input('Как называется материал? ')
             count = input('Введите необходимое количество материала ? ')
-            link = input('Укажите ссылку на Леонардо ? ')
+
             materials.append(
                 {'name': name,
                  'count': count,
-                 'link': link,
+
                  }
 
             )
@@ -43,24 +43,28 @@ class Calc:
 
 class Delete:
     def get_objects(self):
-        pass
+        getobjectdel=input('Что Вы хотите удалить? ')
+        return getobjectdel
 
     def choice_object(self):
-        pass
+        choiceobjectdel=input('Какое изделие Вы хотите выбрать? ')
+        return choiceobjectdel
 
     def del_object(self):
-        pass
+        delobject=input('Вы действительно хотите удалить: "элемент"? ')
 
 
 class Edit:
     def get_objects(self):
-        pass
+        getobjectedi = input('Что Вы хотите изменить? ')
+        return getobjectedi
 
     def choice_object(self):
-        pass
+        choiceobjectedi= input('Какое изделие Вы хотите выбрать? ')
+        return choiceobjectedi
 
     def get_materials(self):
-        pass
+        getmaterials=input('Выберите материал,который хотите изменить: ')
 
     def choice_material(self):
         pass
