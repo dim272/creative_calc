@@ -1,0 +1,222 @@
+@import "burger.css";
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8f7ff;
+}
+
+h1, h3 {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    overflow: hidden;
+}
+
+.app__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__buttons {
+    display: flex;
+    justify-content: end;
+}
+
+.mobile_menu {
+    display: none;
+}
+
+.header__buttons > a.button {
+    margin-right: 5px;
+}
+
+.app__body {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+}
+
+.app__widget {
+    width: 10%;
+    text-align: center;
+}
+
+.categories {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.categories > a.button {
+    margin-top: 5px;
+}
+
+.app__items {
+    width: 90%;
+}
+
+.item__block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.item {
+    display: block;
+    background-color: azure;
+    margin: 5px;
+    padding: 5px;
+    text-decoration: none;
+    color: inherit;
+    width: 20%;
+    height: 300px;
+}
+
+.item__header {
+    height: 75%;
+    width: 100%;
+}
+
+.item__title {
+    font-size: medium;
+    text-align: center;
+    margin: 0;
+}
+
+.item__image {
+    margin: 0 auto;
+    width: 90%;
+    height: 90%;
+}
+
+.item__image > img {
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+
+.item__body {
+    height: 20%;
+    width: 100%;
+    padding: 5%;
+}
+
+.item__info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.item__text {
+    font-size: small;
+    display: block;
+    margin: 0;
+}
+
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 100%;
+    margin: auto;
+}
+
+.button {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	cursor:pointer;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-shadow:0px 1px 0px #ffffff;
+    text-decoration: none;
+    color: inherit;
+}
+.button:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+@media (max-width: 1280px) {
+    .mobile_menu {
+        display:inherit;
+    }
+
+    .header__buttons {
+        display: none;
+    }
+
+    .item {
+        width: 30%;
+        height: 60vh;
+    }
+
+    .app__widget {
+        display: none;
+    }
+
+    .app__items {
+        width: 100%;
+    }
+}
+
+@media (534px <= width <= 767px) {
+    .item {
+        width: 45%;
+        height: 60vh;
+    }
+
+    .app__widget {
+        display: none;
+    }
+
+    .app__items {
+        width: 100%;
+    }
+}
+
+@media (width <= 533px) {
+    .item {
+        width: 100%;
+        height: 80vh;
+    }
+
+    .app__widget {
+        display: none;
+    }
+
+    .app__items {
+        width: 100%;
+    }
+}
