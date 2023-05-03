@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+
+{% block handmade_list %}
+
+    <div class="app__items">
+        <div class="item__block">
+
+            {% for handmade in handmade_list %}
+
+                <a href="{{ handmade.link }}" class="item">
+                    <div class="item__header">
+                        <h3 class="item__title">{{ handmade.name }}</h3>
+                        <div class="item__image">
+                            <img src="img/sf.jpg" alt="{{ handmade.name }}">
+                        </div>
+                    </div>
+                    <div class="item__body">
+                        <div class="item__info">
+                            <p class="item__text">Автор: {{ handmade.user_name }}</p>
+                            <p class="item__text">Дата создания: {{ handmade.date_added }}</p>
+                            <p class="item__text">Себестоимость: {{ handmade.price }}</p>
+                        </div>
+                    </div>
+                </a>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}
