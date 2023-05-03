@@ -114,7 +114,7 @@ class DataBase:
             handmade_list=cursor.fetchall()
         return handmade_list
 
-    def get_handemade_by_user(self,user_id):
+    def get_handmade_by_user(self,user_id):
         with self.connect:
             cursor = self.connect.cursor()
             cursor.execute(
@@ -139,4 +139,70 @@ class DataBase:
                 (handmade_id,)
             )
             materials = cursor.fetchall()
-            return materials
+        return materials
+
+
+# if __name__ == "__main__":
+#     db = DataBase()
+    # db.create_user('111@11.ru', 'q123', 'test1')
+    # db.create_user('222@11.ru', 'q123', 'test2')
+    # db.create_user('333@11.ru', 'q123', 'test3')
+    # db.create_user('444@11.ru', 'q123', 'test4')
+
+    # materials1 = [
+    #     {
+    #         'name': 'Воск',
+    #         'quantity': 100,
+    #         'total_quantity': 500,
+    #         'price': 349,
+    #     },
+    #     {
+    #         'name': 'Фитиль',
+    #         'quantity': 1,
+    #         'total_quantity': 20,
+    #         'price': 149,
+    #     },
+    #     {
+    #         'name': 'Отдушка',
+    #         'quantity': 10,
+    #         'total_quantity': 100,
+    #         'price': 499,
+    #     }
+    # ]
+    #
+    # materials2 = [
+    #     {
+    #         'name': 'Ткань',
+    #         'quantity': 30,
+    #         'total_quantity': 100,
+    #         'price': 349,
+    #     },
+    #     {
+    #         'name': 'Краска',
+    #         'quantity': 10,
+    #         'total_quantity': 100,
+    #         'price': 149,
+    #     },
+    #     {
+    #         'name': 'Клей',
+    #         'quantity': 3,
+    #         'total_quantity': 100,
+    #         'price': 129,
+    #     },
+    #     {
+    #         'name': 'Проволока',
+    #         'quantity': 10,
+    #         'total_quantity': 100,
+    #         'price': 99,
+    #     }
+    # ]
+    #
+    # from main import calculating
+    #
+    # price1 = calculating(materials1)
+    # price2 = calculating(materials2)
+    #
+    # db.create_handmade('Candle', 0, 3, price1)
+    # db.create_handmade('Rose', 0, 3, price2)
+    # db.create_materials(5, materials1)
+    # db.create_materials(6, materials2)
