@@ -104,9 +104,10 @@ class DataBase:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
-                SELECT * FROM handmade 
-                WHERE is_private = 0
-                ORDER BY id DESC 
+                SELECT h.name, h.date_added, h.price, u.name from handmade h 
+                INNER JOIN "user" u ON h.user_id = u.id
+                WHERE h.is_private = 0
+                ORDER BY h.id DESC 
                 LIMIT (?)               
                 """,
                 (limit,)
