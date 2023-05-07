@@ -1,13 +1,18 @@
 import sqlite3
+from typing import List, Dict, Tuple
 from datetime import datetime
 
 
 class DataBase:
-    def __init__(self):
-        self.connect = sqlite3.connect('lavander.db')
-        self.create_db()
+    """  Класс для работы с базой данных  """
 
-    def create_db(self):
+    def __init__(self):
+        """ Создание и подключение к базе данных, выполнение функции создания таблиц   """
+        self.connect = sqlite3.connect('lavander.db')
+        self.create_tables()
+
+    def create_tables(self):
+        """ Создание таблиц в базе данных """
         with self.connect:
             cursor = self.connect.cursor()
             cursor.execute(
@@ -55,7 +60,13 @@ class DataBase:
             )
             self.connect.commit()
 
-    def create_user(self, email, password, name):
+    def create_user(self, email: str, password: str, name: str):
+        """ Сохранение нового пользователя в бд
+
+        :param email: Логин пользователя
+        :param password: Пароль пользователя
+        :param name: Имя пользователя
+        """
         with self.connect:
             date_added = datetime.now()
 
@@ -69,7 +80,14 @@ class DataBase:
             )
             self.connect.commit()
 
-    def create_handmade(self, name, is_private, user_id,price):
+    def create_handmade(self, name: str, is_private: int, user_id: int, price: int):
+        """Сохранение новой работы в бд
+
+        :param name: Название работы
+        :param is_private: Приватный/открытый работы
+        :param user_id: номер/id пользователя
+        :param price: себестоимость работы вычисленная
+        """
         with self.connect:
             date_added = datetime.now()
 
@@ -84,7 +102,12 @@ class DataBase:
             )
             self.connect.commit()
 
-    def create_materials(self, handmade_id, materials):
+    def create_materials(self, handmade_id: int, materials: List[Dict]):
+        """ Сохранение списка материалов в базу данных
+
+        :param handmade_id: Уникальный номер работы.
+        :param materials: Список словарей в каждом из которых хранится информация о материале.
+        """
         with self.connect:
             date_added = datetime.now()
             cursor = self.connect.cursor()
@@ -99,7 +122,14 @@ class DataBase:
                 )
             self.connect.commit()
 
-    def get_last_handmade(self, limit=25):
+    def get_last_handmade(self, limit: int = 25) -> List[Tuple]:
+        """ Запрашивает из таблицы handmade все доступные (не приватные) работы.
+
+         Для вывода на экран списка работ на главной страницы.
+
+        :param limit: Ограничение количества работ.
+        :return: Список работ
+        """
         with self.connect:
             cursor = self.connect.cursor()
             cursor.execute(
@@ -107,20 +137,27 @@ class DataBase:
                 SELECT * FROM handmade 
                 WHERE is_private = 0
                 ORDER BY id DESC 
-                LIMIT (?)               
+                LIMIT ?               
                 """,
                 (limit,)
             )
             handmade_list=cursor.fetchall()
         return handmade_list
 
-    def get_handmade_by_user(self,user_id):
+    def get_handmade_by_user(self, user_id: int) -> List[Tuple]:
+        """ Запрашивает из таблицы handmade все работы определенного пользователя.
+
+        Для вывода на экран списка работ в личном кабинете.
+
+        :param user_id: Номер пользователя.
+        :return: Список работ.
+        """
         with self.connect:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
                 SELECT * FROM handmade
-                WHERE user_id = (?)
+                WHERE user_id = ?
                 ORDER BY id DESC
                 """,
                 (user_id,)
@@ -128,13 +165,20 @@ class DataBase:
             handmade_list = cursor.fetchall()
             return handmade_list
 
-    def get_materials(self,handmade_id):
+    def get_materials(self,handmade_id) -> List[Tuple]:
+        """Запрашивает из таблицы material список материалов относящихся к определенной работе
+
+        Для вывода на экран списка материалов на странице работы
+
+        :param handmade_id:
+        :return:
+        """
         with self.connect:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
                 SELECT * FROM material
-                WHERE handmade_id = (?)
+                WHERE handmade_id = ?
                 """,
                 (handmade_id,)
             )
@@ -142,8 +186,9 @@ class DataBase:
         return materials
 
 
-# if __name__ == "__main__":
-#     db = DataBase()
+if __name__ == "__main__":
+    db = DataBase()
+    db.get_last_handmade()
     # db.create_user('111@11.ru', 'q123', 'test1')
     # db.create_user('222@11.ru', 'q123', 'test2')
     # db.create_user('333@11.ru', 'q123', 'test3')
