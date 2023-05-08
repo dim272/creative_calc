@@ -12,10 +12,11 @@ def main_page():
     handmade_list = db.get_last_handmade(limit=20)
     for item in handmade_list:
         handmade_items.append({
-            'name': item[1],
+            'name': item[0],
             'link': '#',
-            'date_added': item[5],
-            'price': item[4]
+            'date_added': item[1],
+            'price': item[2],
+            'user_name': item[3]
         })
     return render_template("index.html", handmade_list=handmade_items)
 
