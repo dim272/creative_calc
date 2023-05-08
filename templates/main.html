@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
@@ -12,9 +12,9 @@
 
         <section class="app__header">
             <img class="header__logo" src="" alt="" >
-            <h1 class="header__title">Лучшие работы</h1>
+            <h1 class="header__title">{{ h1 }}</h1>
             <div class="header__buttons">
-                <a href="login.html" class="button">Войти</a>
+                <a href="/login.html" class="button">Войти</a>
 
             </div>
 
@@ -28,7 +28,7 @@
                       <span></span>
 
                       <ul id="menu">
-                        <a href="login.html">Войти</a>
+                        <a href="/login.html">Войти</a>
                         <p>Категории:</p>
                         <a href="#">Цветы</a>
                         <a href="#">Свечи</a>
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            {% block handmade_list %}{% endblock %}
+            {% block content %}{% endblock %}
 
         </section>
 
