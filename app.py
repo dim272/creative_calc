@@ -68,5 +68,10 @@ def registration():
     return render_template("registration.html", msg=msg)
 
 
+@app.route("/create.html")
+def create():
+    return render_template("create.html")
+
+
 if __name__ == '__main__':
     app.run()
