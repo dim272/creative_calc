@@ -38,9 +38,10 @@ class DbConnection:
                     name TEXT NOT NULL,
                     date_added DATETIME NOT NULL,
                     is_private INTEGER NOT NULL,
+                    price INTEGER,
                     user_id INTEGER NOT NULL,
                     FOREIGN KEY (user_id) REFERENCES user (id) 
-                );
+                )
                 """
             )
             cur.execute(
@@ -104,7 +105,7 @@ class DbConnection:
             cur.execute(
                 """
                 SELECT * FROM handmade
-                ORDER BY date_added
+                ORDER BY id
                 LIMIT (?)
                 """,
                 (limit,)
@@ -119,7 +120,7 @@ class DbConnection:
                 """
                 SELECT * FROM handmade
                 WHERE user_id = (?)
-                ORDER BY date_added
+                ORDER BY id
                 """,
                 (user_id,)
             )
@@ -145,9 +146,9 @@ if __name__ == '__main__':
     x = DbConnection()
     # x.save_user(
     #     **{
-    #         'email': 'test@test.com',
-    #         'password': 'test_pass',
-    #         'name': 'test_name',
+    #         'email': 'test2@test.com',
+    #         'password': 'test2_pass',
+    #         'name': 'test2_name',
     #         'about': 'test test test'
     #     }
     # )
@@ -168,7 +169,7 @@ if __name__ == '__main__':
     m = x.get_material_list(1)
     print(m)
 
-    # from main import calculating
-    # price = calculating(m)
-    # print(price)
+    from main import calculating
+    price = calculating(m)
+    print(price)
 
