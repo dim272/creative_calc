@@ -1,0 +1,34 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+    <section class="creator">
+      <h2 class="creator__title">Создание новой работы</h2>
+
+      <form action="{{ url_for('create_handmade') }}" method="post" class="creator__form">
+        <input type="text" name="name" placeholder="Название работы" />
+        <p>Работа доступна для просмотра остальным пользователями?</p>
+        <div>
+          <input type="radio" id="private" name="is_private" value="false" checked>
+          <label for="private">Да</label>
+          <input type="radio" id="not_private" name="is_private" value="true">
+          <label for="not_private">Нет</label>
+        </div>
+        <p>Перечислите материалы:</p>
+        <section id="materials">
+          <div class="creator_material">
+            <input type="text" name="m_name" placeholder="Название материала" />
+            <input type="text" name="m_quantity" placeholder="Необходимое количество" />
+            <input type="text" name="m_total_quantity" placeholder="Количество в упаковке" />
+            <input type="text" name="m_price" placeholder="Стоимость упаковки" />
+          </div>
+        </section>
+        <input type="button" value="Добавить" onclick="addRow()" />
+        <input type="submit" class="button" value="Сохранить">
+      </form>
+
+    </section>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='materials.js') }}"></script>
+
+{% endblock %}

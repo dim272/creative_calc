@@ -80,13 +80,14 @@ class DataBase:
             )
             self.connect.commit()
 
-    def create_handmade(self, name: str, is_private: int, user_id: int, price: int):
+    def create_handmade(self, name: str, is_private: int, user_id: int, price: int) -> int:
         """Сохранение новой работы в бд
 
         :param name: Название работы
         :param is_private: Приватный/открытый работы
         :param user_id: номер/id пользователя
         :param price: себестоимость работы вычисленная
+        :return: id сохранённой работы
         """
         with self.connect:
             date_added = datetime.now()
@@ -101,6 +102,7 @@ class DataBase:
 
             )
             self.connect.commit()
+            return cursor.lastrowid
 
     def create_materials(self, handmade_id: int, materials: List[Dict]):
         """ Сохранение списка материалов в базу данных
@@ -185,6 +187,49 @@ class DataBase:
             )
             materials = cursor.fetchall()
         return materials
+
+    def check_user_exists(self, email: str) -> bool:
+        """Производит поиск в таблице user на наличие строки с переданными значением email.
+
+        Используется в процессе регистрации и авторизации.
+
+        :param email: Адрес электронной почты пользователя.
+        :return: Существует / не существует пользователь с таким email.
+        """
+
+        with self.connect:
+            cursor = self.connect.cursor()
+            cursor.execute(
+                """
+                SELECT * FROM user
+                WHERE email = ?
+                """,
+                (email,)
+            )
+            return bool(cursor.fetchone())
+
+    def login(self, email: str, password: str) -> Tuple[str]:
+        """Производит поиск в таблице user на наличие строки с переданными значениями email и password.
+
+        Используется при авторизации пользователя.
+        Возвращает True, если пользователь введёт правильные email и password, находящиеся в бд.
+        Иначе возвращает False.
+
+        :param email: Адрес электронной почты пользователя.
+        :param password: Пароль пользователя.
+        :return: Данные пользователя с указанным email и password.
+        """
+
+        with self.connect:
+            cursor = self.connect.cursor()
+            cursor.execute(
+                """
+                SELECT * FROM user
+                WHERE email = ? AND password = ?
+                """,
+                (email, password)
+            )
+            return cursor.fetchone()
 
 
 if __name__ == "__main__":
