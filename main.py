@@ -23,6 +23,11 @@ def calculating(material_list: List[Dict]) -> int:
 
 
 def date_format(date_str: str) -> str:
+    """Изменение строки даты из формата бд в формат вывода на сайт.
+
+    :param date_str: Дата в формате вывода из бд.
+    :return: Дата в формате вывода на сайт.
+    """
     date_time=datetime.strptime(date_str,'%Y-%m-%d %H:%M:%S.%f')
     format_datetime=date_time.strftime('%d %h %Y')
     return format_datetime
@@ -39,10 +44,10 @@ def prepare_handmade_list(handmade_list: List[Tuple]) -> List[Dict]:
 
     for item in handmade_list:
         result.append({
-            'name': item[0],
+            'name': item[1],
             'link': '#',
-            'date_added': date_format(item[1]),
-            'price': item[2],
+            'date_added': date_format(item[5]),
+            'price': item[4],
             'user_name': item[3]
         })
 

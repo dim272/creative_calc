@@ -1,5 +1,5 @@
 import sqlite3
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 from datetime import datetime
 
 
@@ -99,7 +99,6 @@ class DataBase:
                 VALUES (?,?,?,?,?)
                 """,
                 (name, is_private, date_added, user_id, price)
-
             )
             self.connect.commit()
             return cursor.lastrowid
@@ -159,9 +158,10 @@ class DataBase:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
-                SELECT * FROM handmade
-                WHERE user_id = ?
-                ORDER BY id DESC
+                SELECT h.id ,h.name ,h.is_private ,u.name ,h.price ,h.date_added  FROM handmade h 
+                INNER JOIN "user" u ON h.user_id = u.id 
+                WHERE h.user_id = ?
+                ORDER BY h.id DESC 
                 """,
                 (user_id,)
             )
@@ -191,12 +191,11 @@ class DataBase:
     def check_user_exists(self, email: str) -> bool:
         """Производит поиск в таблице user на наличие строки с переданными значением email.
 
-        Используется в процессе регистрации и авторизации.
+        Используется в процессе регистрации.
 
-        :param email: Адрес электронной почты пользователя.
+        :param email: Адрес электронной почты пользователя (логин).
         :return: Существует / не существует пользователь с таким email.
         """
-
         with self.connect:
             cursor = self.connect.cursor()
             cursor.execute(
@@ -208,14 +207,14 @@ class DataBase:
             )
             return bool(cursor.fetchone())
 
-    def login(self, email: str, password: str) -> Tuple[str]:
+    def login(self, email: str, password: str) -> Optional[Tuple[str]]:
         """Производит поиск в таблице user на наличие строки с переданными значениями email и password.
 
         Используется при авторизации пользователя.
-        Возвращает True, если пользователь введёт правильные email и password, находящиеся в бд.
-        Иначе возвращает False.
+        Возвращает информацию о пользователе, если он введёт правильные email и password, находящиеся в бд.
+        Иначе возвращает None.
 
-        :param email: Адрес электронной почты пользователя.
+        :param email: Адрес электронной почты пользователя (логин).
         :param password: Пароль пользователя.
         :return: Данные пользователя с указанным email и password.
         """
@@ -232,68 +231,34 @@ class DataBase:
             return cursor.fetchone()
 
 
-if __name__ == "__main__":
-    db = DataBase()
-    db.get_last_handmade()
-    # db.create_user('111@11.ru', 'q123', 'test1')
-    # db.create_user('222@11.ru', 'q123', 'test2')
-    # db.create_user('333@11.ru', 'q123', 'test3')
-    # db.create_user('444@11.ru', 'q123', 'test4')
-
-    # materials1 = [
-    #     {
-    #         'name': 'Воск',
-    #         'quantity': 100,
-    #         'total_quantity': 500,
-    #         'price': 349,
-    #     },
-    #     {
-    #         'name': 'Фитиль',
-    #         'quantity': 1,
-    #         'total_quantity': 20,
-    #         'price': 149,
-    #     },
-    #     {
-    #         'name': 'Отдушка',
-    #         'quantity': 10,
-    #         'total_quantity': 100,
-    #         'price': 499,
-    #     }
-    # ]
-    #
-    # materials2 = [
-    #     {
-    #         'name': 'Ткань',
-    #         'quantity': 30,
-    #         'total_quantity': 100,
-    #         'price': 349,
-    #     },
-    #     {
-    #         'name': 'Краска',
-    #         'quantity': 10,
-    #         'total_quantity': 100,
-    #         'price': 149,
-    #     },
-    #     {
-    #         'name': 'Клей',
-    #         'quantity': 3,
-    #         'total_quantity': 100,
-    #         'price': 129,
-    #     },
-    #     {
-    #         'name': 'Проволока',
-    #         'quantity': 10,
-    #         'total_quantity': 100,
-    #         'price': 99,
-    #     }
-    # ]
-    #
-    # from main import calculating
-    #
-    # price1 = calculating(materials1)
-    # price2 = calculating(materials2)
-    #
-    # db.create_handmade('Candle', 0, 3, price1)
-    # db.create_handmade('Rose', 0, 3, price2)
-    # db.create_materials(5, materials1)
-    # db.create_materials(6, materials2)
+# if __name__ == "__main__":
+#     db = DataBase()
+#     db.create_user('test11@mail.ru', '111', 'test11')
+#
+#     materials = [
+#         {
+#             'name': 'Воск',
+#             'quantity': 100,
+#             'total_quantity': 500,
+#             'price': 349,
+#         },
+#         {
+#             'name': 'Фитиль',
+#             'quantity': 1,
+#             'total_quantity': 20,
+#             'price': 149,
+#         },
+#         {
+#             'name': 'Отдушка',
+#             'quantity': 10,
+#             'total_quantity': 100,
+#             'price': 499,
+#         }
+#     ]
+#
+#     from main import calculating
+#
+#     price = calculating(materials)
+#
+#     handmade_id = db.create_handmade('Candle', 0, 3, price)
+#     db.create_materials(handmade_id, materials)
