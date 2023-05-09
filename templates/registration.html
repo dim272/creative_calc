@@ -6,7 +6,7 @@
     <div class="login">
         <form action="{{ url_for('registration') }}" method="post" class="login__form">
             <div class="msg">{{ msg }}</div>
-            <input id="email" name="email" type="text" placeholder="Введите свой e-mail" class="login__textbox"/>
+            <input id="email" name="email" type="email" placeholder="Введите свой e-mail" class="login__textbox"/>
             <input id="password" name="password" type="password" placeholder="Придумайте пароль" class="login__textbox"/>
             <input id="username" name="username" type="text" placeholder="Введите имя" class="login__textbox"/>
             <input type="submit" class="button" value="Зарегистрироваться">
