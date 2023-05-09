@@ -5,13 +5,13 @@
     <section class="creator">
       <h2 class="creator__title">Создание новой работы</h2>
 
-      <form action="" class="creator__form">
+      <form action="{{ url_for('create_handmade') }}" method="post" class="creator__form">
         <input type="text" name="name" placeholder="Название работы" />
         <p>Работа доступна для просмотра остальным пользователями?</p>
         <div>
-          <input type="radio" id="private" name="is_private" value="true" checked>
+          <input type="radio" id="private" name="is_private" value="false" checked>
           <label for="private">Да</label>
-          <input type="radio" id="not_private" name="is_private" value="false">
+          <input type="radio" id="not_private" name="is_private" value="true">
           <label for="not_private">Нет</label>
         </div>
         <p>Перечислите материалы:</p>
@@ -24,6 +24,7 @@
           </div>
         </section>
         <input type="button" value="Добавить" onclick="addRow()" />
+        <input type="submit" class="button" value="Сохранить">
       </form>
 
     </section>

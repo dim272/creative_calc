@@ -80,13 +80,14 @@ class DataBase:
             )
             self.connect.commit()
 
-    def create_handmade(self, name: str, is_private: int, user_id: int, price: int):
+    def create_handmade(self, name: str, is_private: int, user_id: int, price: int) -> int:
         """Сохранение новой работы в бд
 
         :param name: Название работы
         :param is_private: Приватный/открытый работы
         :param user_id: номер/id пользователя
         :param price: себестоимость работы вычисленная
+        :return: id сохранённой работы
         """
         with self.connect:
             date_added = datetime.now()
@@ -101,6 +102,7 @@ class DataBase:
 
             )
             self.connect.commit()
+            return cursor.lastrowid
 
     def create_materials(self, handmade_id: int, materials: List[Dict]):
         """ Сохранение списка материалов в базу данных

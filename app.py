@@ -1,7 +1,9 @@
+from typing import List
+
 from flask import Flask, render_template, request, session
 
 from db_interface import DataBase
-from main import date_format
+from main import calculating, date_format
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -42,10 +44,10 @@ def login():
         session['id'] = user_id
         session['username'] = user_name
 
-        msg = f"Здравствуйте {user_name}"
+        return profile_page()
     else:
         msg = "Вы ввели неправильный логин или пароль."
-    return render_template("login.html", msg=msg)
+        return render_template("login.html", msg=msg)
 
 
 @app.route("/registration.html")
@@ -71,6 +73,45 @@ def registration():
 @app.route("/create.html")
 def create():
     return render_template("create.html")
+
+
+@app.route('/create', methods=['POST'])
+def create_handmade():
+    handmade_name = request.form.get('name')
+    is_private = 0 if request.form.get('is_private') == 'false' else 1
+    material_list: List[List[str]] = list(request.form.listvalues())
+    materials = []
+    for name in material_list[2]:
+        materials.append({'name': name})
+
+    for index, quantity in enumerate(material_list[3]):
+        materials[index]['quantity'] = int(quantity)
+
+    for index, total_quantity in enumerate(material_list[4]):
+        materials[index]['total_quantity'] = int(total_quantity)
+
+    for index, price in enumerate(material_list[5]):
+        materials[index]['price'] = int(price)
+
+    handmade_price = calculating(materials)
+    user_id = session.get('id')
+
+    db = DataBase()
+    handmade_id = db.create_handmade(name=handmade_name, is_private=is_private, user_id=user_id, price=handmade_price)
+    db.create_materials(handmade_id=handmade_id, materials=materials)
+
+    return profile_page()
+
+
+@app.route('/profile.html')
+def profile_page():
+    user_id = session.get('id')
+    if user_id:
+        db = DataBase()
+        handmade_list = db.get_handmade_by_user(user_id)
+        return render_template('profile.html', handmade_list=handmade_list)
+    else:
+        return render_template('login.html')
 
 
 if __name__ == '__main__':
