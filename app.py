@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 
 from db_interface import DataBase
+from main import date_format
 
 app = Flask(__name__)
 
@@ -12,10 +13,10 @@ def main_page():
     handmade_list = db.get_last_handmade(limit=20)
     for item in handmade_list:
         handmade_items.append({
-            'name': item[0],
+            'name': item[1],
             'link': '#',
-            'date_added': item[1],
-            'price': item[2],
+            'date_added': date_format(item[5]),
+            'price': item[4],
             'user_name': item[3]
         })
     return render_template("index.html", handmade_list=handmade_items)
@@ -27,4 +28,4 @@ def login_page():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    app.run()

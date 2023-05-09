@@ -1,7 +1,7 @@
 from typing import List, Dict
+from datetime import datetime
 
-
-def calculating(material_list: List[Dict]):
+def calculating(material_list: List[Dict]) -> int:
     """
     Pасчет себестоимости работы с помощью списка material_list.
 
@@ -19,3 +19,9 @@ def calculating(material_list: List[Dict]):
         material_price = material['price']      # стоимость упаковки
         price += material_price / total_quantity*quantity
     return price
+
+
+def date_format(date_str: str) -> str:
+    date_time=datetime.strptime(date_str,'%Y-%m-%d %H:%M:%S.%f')
+    format_datetime=date_time.strftime('%d %h %Y')
+    return format_datetime

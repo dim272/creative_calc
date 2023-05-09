@@ -6,7 +6,7 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f8f7ff;
+    background-color:  #f7f6f2;
 }
 
 h1, h3 {
@@ -81,7 +81,7 @@ ul {
 
 .item {
     display: block;
-    background-color: azure;
+    background-color: #f5f5ff;
     margin: 5px;
     padding: 5px;
     text-decoration: none;
@@ -146,10 +146,10 @@ ul {
 
 .button {
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-	background-color:#ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f7f6f2 100%);
+	background-color:#b5baff;
 	border-radius:6px;
-	border:1px solid #dcdcdc;
+	border:1px solid #b5baff;
 	cursor:pointer;
 	font-family:Arial;
 	font-size:15px;
@@ -160,8 +160,8 @@ ul {
     color: inherit;
 }
 .button:hover {
-	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-	background-color:#f6f6f6;
+	background:linear-gradient(to bottom, #f7f6f2 5%, #ffffff 100%);
+	background-color:  #b5baff;
 }
 .button:active {
 	position:relative;
