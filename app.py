@@ -1,9 +1,10 @@
 from typing import List
 
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 
 from db_interface import DataBase
-from main import calculating, date_format
+from main import calculating, prepare_handmade_list, date_format
+import consts
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -11,23 +12,27 @@ app.secret_key = '123'
 
 @app.route("/")
 def main_page():
-    handmade_items = []
     db = DataBase()
-    handmade_list = db.get_last_handmade(limit=20)
-    for item in handmade_list:
-        handmade_items.append({
-            'name': item[1],
-            'link': '#',
-            'date_added': date_format(item[5]),
-            'price': item[4],
-            'user_name': item[3]
-        })
-    return render_template("index.html", h1='Лучшие работы', handmade_list=handmade_items)
+    handmade_list = prepare_handmade_list(db.get_last_handmade(limit=20))
+    logged_in = session.get('loggedin')
+    if logged_in:
+        nav_links = consts.LOGIN_NAV_LIST
+    else:
+        nav_links = consts.NOT_LOGIN_NAV_LIST
+
+    return render_template("index.html",
+                           h1='Лучшие работы',
+                           handmade_list=handmade_list,
+                           nav_links=nav_links,
+                           categories=consts.CATEGORIES)
 
 
 @app.route("/login.html")
 def login_page():
-    return render_template("login.html", h1='Авторизация')
+    return render_template("login.html",
+                           h1='Авторизация',
+                           nav_links=consts.NOT_LOGIN_NAV_LIST,
+                           categories=consts.CATEGORIES)
 
 
 @app.route('/login', methods=['POST'])
@@ -43,6 +48,8 @@ def login():
         session['loggedin'] = True
         session['id'] = user_id
         session['username'] = user_name
+        session['categories'] = consts.CATEGORIES
+        session['nav_links'] = consts.LOGIN_NAV_LIST
 
         return profile_page()
     else:
@@ -50,9 +57,21 @@ def login():
         return render_template("login.html", msg=msg)
 
 
+@app.route('/logout')
+def logout():
+    session['loggedin'] = False
+    del session['id']
+    del session['username']
+    return main_page()
+
+
 @app.route("/registration.html")
 def registration_page():
-    return render_template("registration.html", h1='Регистрация')
+    return render_template("registration.html",
+                           h1='Регистрация',
+                           nav_links=consts.NOT_LOGIN_NAV_LIST,
+                           categories=consts.CATEGORIES
+                           )
 
 
 @app.route('/registration', methods=['POST'])
@@ -72,7 +91,13 @@ def registration():
 
 @app.route("/create.html")
 def create():
-    return render_template("create.html")
+    if not session.get('loggedin'):
+        return login_page()
+    else:
+        return render_template("create.html",
+                               h1='Создание новой работы',
+                               nav_links=consts.LOGIN_NAV_LIST,
+                               categories=consts.CATEGORIES)
 
 
 @app.route('/create', methods=['POST'])
@@ -108,8 +133,12 @@ def profile_page():
     user_id = session.get('id')
     if user_id:
         db = DataBase()
-        handmade_list = db.get_handmade_by_user(user_id)
-        return render_template('profile.html', handmade_list=handmade_list)
+        handmade_list = prepare_handmade_list(db.get_handmade_by_user(user_id))
+        return render_template("profile.html",
+                               h1='Личный кабинет',
+                               handmade_list=handmade_list,
+                               nav_links=consts.LOGIN_NAV_LIST,
+                               categories=consts.CATEGORIES)
     else:
         return render_template('login.html')
 

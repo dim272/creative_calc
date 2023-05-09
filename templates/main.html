@@ -14,7 +14,12 @@
             <img class="header__logo" src="" alt="" >
             <h1 class="header__title">{{ h1 }}</h1>
             <div class="header__buttons">
-                <a href="/login.html" class="button">Войти</a>
+
+                {% block nav_links %}
+                    {% for link in nav_links %}
+                        <a href="{{ link.url }}" class="button">{{ link.text }}</a>
+                    {% endfor %}
+                {% endblock %}
 
             </div>
 
@@ -22,21 +27,23 @@
                 <nav role="navigation">
                     <div id="menuToggle">
                       <input type="checkbox">
-
                       <span></span>
                       <span></span>
                       <span></span>
 
                       <ul id="menu">
-                        <a href="/login.html">Войти</a>
+
+                        {{ self.nav_links() }}
+
                         <p>Категории:</p>
-                        <a href="#">Цветы</a>
-                        <a href="#">Свечи</a>
-                        <a href="#">Игрушки</a>
-                        <a href="#">Кожа</a>
-                        <a href="#">Вязание</a>
-                        <a href="#">Картон</a>
-                        <a href="#">Ароматы</a>
+
+                        {% block categories %}
+                          {% for category in categories %}
+                            <a href="{{ category.url }}" class="category button">{{ category.text }}</a>
+                          {% endfor %}
+                        {% endblock %}
+
+
                       </ul>
                     </div>
                   </nav>
@@ -49,13 +56,9 @@
             <div class="app__widget">
                 <h3>Категории</h3>
                 <div class="categories">
-                    <a class="category button">Цветы</a>
-                    <a class="category button">Свечи</a>
-                    <a class="category button">Игрушки</a>
-                    <a class="category button">Кожа</a>
-                    <a class="category button">Вязание</a>
-                    <a class="category button">Картон</a>
-                    <a class="category button">Ароматы</a>
+
+                    {{ self.categories() }}
+
                 </div>
             </div>
 
