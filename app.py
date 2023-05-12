@@ -173,5 +173,41 @@ def profile_page():
         return login_page()
 
 
+@app.route('/single.html')
+def single_page():
+    materials = [
+        {
+            'name': 'Мыльная основа',
+            'quantity': '200'
+        },
+        {
+            'name': 'Отдушка',
+            'quantity': '15'
+        },
+        {
+            'name': 'Лаванда',
+            'quantity': '20'
+        },
+        {
+            'name': 'Загуститель',
+            'quantity': '10'
+        }
+    ]
+    product = {
+        'url': '/static/img/lavander.jpg',
+        'name': 'Мыло с лавандой',
+        'author': 'Виктория 007',
+        'date': '01.05.2023',
+        'price': '500'
+    }
+
+    return render_template("single.html",
+                           h1=product['name'],
+                           product=product,
+                           materials=materials,
+                           nav_links=consts.LOGIN_NAV_LIST,
+                           categories=consts.CATEGORIES)
+
+
 if __name__ == '__main__':
     app.run()

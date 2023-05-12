@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+  <section class="product">
+
+    <div class="product__image">
+      <img src="{{ product.url }}" alt="{{ product.name }}">
+    </div>
+    <div class="product__info">
+      <p class="product__label">Название: <span class="product__text">{{ product.name }}</span></p>
+      <p class="product__label">Автор: <span class="product__text">{{ product.author }}</span></p>
+      <p class="product__label">Дата создания: <span class="product__text">{{ product.date }}</span></p>
+      <br>
+      <p class="product__label">Материалы:</p>
+      {% for material in materials %}
+      <p class="product__label">
+        <span class="material">{{ material.name }}</span> <span class="material-qty">{{ material.quantity }}</span>
+      </p>
+      {% endfor %}
+      <br>
+      <p class="product__label">Себестоимость: <span class="product__text">{{ product.price }}</span></p>
+    </div>
+
+  </section>
+
+{% endblock %}
