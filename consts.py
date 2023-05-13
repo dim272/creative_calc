@@ -1,3 +1,7 @@
+from pathlib import Path
+
+IMAGE_UPLOAD_DIR = Path(Path().parent.absolute() / 'static/image_uploads')
+
 NOT_LOGIN_NAV_LIST = [
     {
         'url': '/',

@@ -1,3 +1,5 @@
+import time
+from pathlib import Path
 from typing import List
 
 from flask import Flask, render_template, request, session
@@ -133,25 +135,43 @@ def create_handmade():
     handmade_name = request.form.get('name')
     is_private = 0 if request.form.get('is_private') == 'false' else 1
 
-    material_list: List[List[str]] = list(request.form.listvalues())
     materials = []
-    for name in material_list[2]:
+    for name in request.form.getlist('m_name'):
         materials.append({'name': name})
 
-    for index, quantity in enumerate(material_list[3]):
+    for index, quantity in enumerate(request.form.getlist('m_quantity')):
         materials[index]['quantity'] = int(quantity)
 
-    for index, total_quantity in enumerate(material_list[4]):
+    for index, total_quantity in enumerate(request.form.getlist('m_total_quantity')):
         materials[index]['total_quantity'] = int(total_quantity)
 
-    for index, price in enumerate(material_list[5]):
+    for index, price in enumerate(request.form.getlist('m_price')):
         materials[index]['price'] = int(price)
 
     handmade_price = calculating(materials)
     user_id = session.get('id')
 
+    # сохраняем картинку
+    image_name = 'default.jpg'
+    image = request.files['image']
+    if image.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+        # добавляем цифры для создания уникального имени файла
+        seconds = time.time()
+        image_file_part = str(seconds).replace('.', '')[4:14] + '_'
+        image_name = image_file_part + image.filename.replace(' ', '_')
+        # генерируем путь для сохранения файла
+        image_save_path = Path(consts.IMAGE_UPLOAD_DIR / image_name)
+        # сохраняем файл
+        image.save(dst=image_save_path)
+
     db = DataBase()
-    handmade_id = db.create_handmade(name=handmade_name, is_private=is_private, user_id=user_id, price=handmade_price)
+    handmade_id = db.create_handmade(
+        name=handmade_name,
+        is_private=is_private,
+        user_id=user_id,
+        price=handmade_price,
+        filename=image_name
+    )
     db.create_materials(handmade_id=handmade_id, materials=materials)
 
     return profile_page()
@@ -177,7 +197,7 @@ def profile_page():
 def single_page():
     handmade_id = request.values.get('id')
     db = DataBase()
-    product_info = prepare_handmade_list([db.get_handmade_by_id(handmade_id)])
+    handmade_info = prepare_handmade_list([db.get_handmade_by_id(handmade_id)])
     materials_from_db = db.get_materials(handmade_id)
     materials = [
         {
@@ -188,8 +208,8 @@ def single_page():
     ]
 
     return render_template("single.html",
-                           h1=product_info[0]['name'],
-                           product=product_info[0],
+                           h1=handmade_info[0]['name'],
+                           handmade=handmade_info[0],
                            materials=materials,
                            nav_links=consts.LOGIN_NAV_LIST,
                            categories=consts.CATEGORIES)

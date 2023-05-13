@@ -37,6 +37,7 @@ class DataBase:
                     is_private INTEGER NOT NULL,
                     user_id INTEGER NOT NULL,
                     price INTEGER NOT NULL,
+                    filename TEXT NOT NULL,
                     date_added DATETIME NOT NULL,
                     FOREIGN KEY (user_id) REFERENCES user (id)
                 ) 
@@ -80,13 +81,14 @@ class DataBase:
             )
             self.connect.commit()
 
-    def create_handmade(self, name: str, is_private: int, user_id: int, price: int) -> int:
+    def create_handmade(self, name: str, is_private: int, user_id: int, price: int, filename: str) -> int:
         """Сохранение новой работы в бд
 
         :param name: Название работы
         :param is_private: Приватный/открытый работы
         :param user_id: номер/id пользователя
         :param price: себестоимость работы вычисленная
+        :param filename: название файла фотографии
         :return: id сохранённой работы
         """
         with self.connect:
@@ -95,10 +97,10 @@ class DataBase:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
-                INSERT INTO handmade (name,is_private,date_added,user_id,price)
-                VALUES (?,?,?,?,?)
+                INSERT INTO handmade (name, is_private, date_added, user_id, price, filename)
+                VALUES (?,?,?,?,?,?)
                 """,
-                (name, is_private, date_added, user_id, price)
+                (name, is_private, date_added, user_id, price, filename)
             )
             self.connect.commit()
             return cursor.lastrowid
@@ -135,7 +137,7 @@ class DataBase:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
-                SELECT h.id ,h.name ,h.is_private ,u.name ,h.price ,h.date_added  FROM handmade h 
+                SELECT h.id, h.name, h.is_private, u.name, h.price, h.filename, h.date_added FROM handmade h 
                 INNER JOIN "user" u ON h.user_id = u.id 
                 WHERE h.is_private = 0
                 ORDER BY h.id DESC 
@@ -158,7 +160,7 @@ class DataBase:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
-                SELECT h.id ,h.name ,h.is_private ,u.name ,h.price ,h.date_added  FROM handmade h 
+                SELECT h.id, h.name, h.is_private, u.name, h.price, h.filename, h.date_added FROM handmade h
                 INNER JOIN "user" u ON h.user_id = u.id 
                 WHERE h.user_id = ?
                 ORDER BY h.id DESC 
@@ -180,7 +182,7 @@ class DataBase:
             cursor = self.connect.cursor()
             cursor.execute(
                 """
-                SELECT h.id ,h.name ,h.is_private ,u.name ,h.price ,h.date_added  FROM handmade h 
+                SELECT h.id, h.name, h.is_private, u.name, h.price, h.filename, h.date_added FROM handmade h
                 INNER JOIN "user" u ON h.user_id = u.id 
                 WHERE h.id = ?
                 """,

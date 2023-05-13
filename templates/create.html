@@ -5,8 +5,16 @@
     <section class="creator">
       <h2 class="creator__title">Создание новой работы</h2>
 
-      <form action="{{ url_for('create_handmade') }}" method="post" class="creator__form">
-        <input type="text" name="name" placeholder="Название работы" />
+      <form action="{{ url_for('create_handmade') }}" method="post" class="creator__form" enctype="multipart/form-data">
+
+        <label for="name">Укажите название вашей работы:</label>
+        <br>
+        <input type="text" id="name" name="name" placeholder="Название работы" />
+        <br><br>
+        <label for="image">Прикрепите фото работы:</label>
+        <br>
+        <input id="image" type="file" name="image" accept="image/png, image/jpeg, image/jpg">
+        <br>
         <p>Работа доступна для просмотра остальным пользователями?</p>
         <div>
           <input type="radio" id="private" name="is_private" value="false" checked>
@@ -14,6 +22,7 @@
           <input type="radio" id="not_private" name="is_private" value="true">
           <label for="not_private">Нет</label>
         </div>
+        <br>
         <p>Перечислите материалы:</p>
         <section id="materials">
           <div class="creator_material">
