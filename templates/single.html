@@ -9,8 +9,8 @@
     </div>
     <div class="product__info">
       <p class="product__label">Название: <span class="product__text">{{ product.name }}</span></p>
-      <p class="product__label">Автор: <span class="product__text">{{ product.author }}</span></p>
-      <p class="product__label">Дата создания: <span class="product__text">{{ product.date }}</span></p>
+      <p class="product__label">Автор: <span class="product__text">{{ product.user_name }}</span></p>
+      <p class="product__label">Дата создания: <span class="product__text">{{ product.date_added }}</span></p>
       <br>
       <p class="product__label">Материалы:</p>
       {% for material in materials %}

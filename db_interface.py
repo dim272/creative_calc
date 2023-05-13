@@ -168,6 +168,27 @@ class DataBase:
             handmade_list = cursor.fetchall()
             return handmade_list
 
+    def get_handmade_by_id(self, handmade_id: int) -> List[Tuple]:
+        """ Запрашивает из таблицы handmade все работы определенного пользователя.
+
+        Для вывода на экран списка работ в личном кабинете.
+
+        :param handmade_id: Номер работы.
+        :return: Информация р работе.
+        """
+        with self.connect:
+            cursor = self.connect.cursor()
+            cursor.execute(
+                """
+                SELECT h.id ,h.name ,h.is_private ,u.name ,h.price ,h.date_added  FROM handmade h 
+                INNER JOIN "user" u ON h.user_id = u.id 
+                WHERE h.id = ?
+                """,
+                (handmade_id,)
+            )
+            handmade_info = cursor.fetchone()
+            return handmade_info
+
     def get_materials(self,handmade_id) -> List[Tuple]:
         """Запрашивает из таблицы material список материалов относящихся к определенной работе
 

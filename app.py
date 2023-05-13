@@ -175,39 +175,25 @@ def profile_page():
 
 @app.route('/single.html')
 def single_page():
+    handmade_id = request.values.get('id')
+    db = DataBase()
+    product_info = prepare_handmade_list([db.get_handmade_by_id(handmade_id)])
+    materials_from_db = db.get_materials(handmade_id)
     materials = [
         {
-            'name': 'Мыльная основа',
-            'quantity': '200'
-        },
-        {
-            'name': 'Отдушка',
-            'quantity': '15'
-        },
-        {
-            'name': 'Лаванда',
-            'quantity': '20'
-        },
-        {
-            'name': 'Загуститель',
-            'quantity': '10'
+            'name': material[1],
+            'quantity': material[2]
         }
+        for material in materials_from_db
     ]
-    product = {
-        'url': '/static/img/lavander.jpg',
-        'name': 'Мыло с лавандой',
-        'author': 'Виктория 007',
-        'date': '01.05.2023',
-        'price': '500'
-    }
 
     return render_template("single.html",
-                           h1=product['name'],
-                           product=product,
+                           h1=product_info[0]['name'],
+                           product=product_info[0],
                            materials=materials,
                            nav_links=consts.LOGIN_NAV_LIST,
                            categories=consts.CATEGORIES)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5002)

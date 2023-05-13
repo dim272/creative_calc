@@ -44,6 +44,7 @@ def prepare_handmade_list(handmade_list: List[Tuple]) -> List[Dict]:
 
     for item in handmade_list:
         result.append({
+            'id': item[0],
             'name': item[1],
             'link': '#',
             'date_added': date_format(item[5]),
