@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Dict, Tuple
 
 
-def calculating(material_list: List[Dict]) -> int:
+def calculating(material_list: List[Dict]) -> float:
     """
     Подсчет себестоимости работы с помощью списка material_list.
 
@@ -19,7 +19,7 @@ def calculating(material_list: List[Dict]) -> int:
         total_quantity = material['total_quantity']     # общее количество материала в упаковке
         material_price = material['price']      # стоимость упаковки
         price += material_price / total_quantity*quantity
-    return price
+    return float("{:.2f}".format(price))
 
 
 def date_format(date_str: str) -> str:
