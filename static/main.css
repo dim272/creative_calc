@@ -8,7 +8,7 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color:  #f7f6f2;
+    background-color:  #f7f2f7;
 }
 
 h1, h3 {
@@ -83,7 +83,7 @@ ul {
 
 .item {
     display: block;
-    background-color: #f5f5ff;
+    background-color: #ede6f7;
     margin: 5px;
     padding: 5px;
     text-decoration: none;
@@ -162,8 +162,9 @@ ul {
     color: inherit;
 }
 .button:hover {
-	background:linear-gradient(to bottom, #f7f6f2 5%, #ffffff 100%);
-	background-color:  #b5baff;
+	background:linear-gradient(to bottom, #f7f2f7 5%, #f7ebf7 100%);
+	background-color:  #ed61ed;
+
 }
 .button:active {
 	position:relative;
@@ -186,6 +187,7 @@ ul {
 
     .app__widget {
         display: none;
+
     }
 
     .app__items {
