@@ -15,7 +15,7 @@
         <br>
         <input id="image" type="file" name="image" accept="image/png, image/jpeg, image/jpg">
         <br>
-        <p>Работа доступна для просмотра остальным пользователями?</p>
+        <p>Доступно для просмотра остальным пользователями?</p>
         <div>
           <input type="radio" id="private" name="is_private" value="false" checked>
           <label for="private">Да</label>
@@ -23,17 +23,22 @@
           <label for="not_private">Нет</label>
         </div>
         <br>
+        <p>Учитывать налоги?</p>
+        <div>
+          <input type="number" name="tax" placeholder="Налоговая ставка" min="0"/>
+        </div>
+        <br>
         <p>Перечислите материалы:</p>
         <section id="materials">
           <div class="creator_material">
             <input type="text" name="m_name" placeholder="Название материала" />
-            <input type="text" name="m_quantity" placeholder="Необходимое количество" />
-            <input type="text" name="m_total_quantity" placeholder="Количество в упаковке" />
-            <input type="text" name="m_price" placeholder="Стоимость упаковки" />
+            <input type="number" name="m_quantity" placeholder="Необходимое количество" min="0"/>
+            <input type="number" name="m_total_quantity" placeholder="Количество в упаковке" min="0"/>
+            <input type="number" name="m_price" placeholder="Стоимость упаковки" min="0"/>
           </div>
         </section>
-        <input type="button" value="Добавить" onclick="addRow()" />
-        <input type="submit" class="button" value="Сохранить">
+        <input type="button" value="Добавить" onclick="addRow()" class="button"/>
+        <input type="submit" value="Сохранить" class="button">
       </form>
 
     </section>

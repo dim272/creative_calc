@@ -33,6 +33,8 @@ def main_page():
 @app.route("/login.html")
 def login_page(msg=None):
     """Отображение страницы авторизации"""
+    if not msg:
+        msg = "Введите логин и пароль"
     return render_template("login.html",
                            h1='Авторизация',
                            msg=msg,
@@ -134,6 +136,7 @@ def create_handmade():
      """
     handmade_name = request.form.get('name')
     is_private = 0 if request.form.get('is_private') == 'false' else 1
+    tax = request.form.get('tax')
 
     materials = []
     for name in request.form.getlist('m_name'):
@@ -148,7 +151,7 @@ def create_handmade():
     for index, price in enumerate(request.form.getlist('m_price')):
         materials[index]['price'] = int(price)
 
-    handmade_price = calculating(materials)
+    handmade_price = calculating(materials, tax)
     user_id = session.get('id')
 
     # сохраняем картинку

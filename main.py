@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Union
 
 
-def calculating(material_list: List[Dict]) -> float:
+def calculating(material_list: List[Dict], tax: Union[int, float, None]) -> float:
     """
     Подсчет себестоимости работы с помощью списка material_list.
 
@@ -11,6 +11,7 @@ def calculating(material_list: List[Dict]) -> float:
     Стоимость каждого материала суммируется.
 
     :param material_list: Список материалов.
+    :param tax: Количество налогов, если переданы.
     :return: Себестоимость работы
     """
     price = 0
@@ -19,7 +20,12 @@ def calculating(material_list: List[Dict]) -> float:
         total_quantity = material['total_quantity']     # общее количество материала в упаковке
         material_price = material['price']      # стоимость упаковки
         price += material_price / total_quantity*quantity
-    return float("{:.2f}".format(price))
+
+    if price and tax:
+        tax = float(tax)
+        price = price + (price / 100 * tax)
+
+    return round(price, 2)
 
 
 def date_format(date_str: str) -> str:

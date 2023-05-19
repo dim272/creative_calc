@@ -6,7 +6,7 @@ function addRow() {
         <input type="text" name="m_quantity" placeholder="Необходимое количество" />
         <input type="text" name="m_total_quantity" placeholder="Количество в упаковке" />
         <input type="text" name="m_price" placeholder="Стоимость упаковки" />
-        <input type="button" value="Удалить" onclick="removeRow(this)" />
+        <input type="button" value="Удалить" onclick="removeRow(this)" class="button"/>
   `;
   document.getElementById('materials').appendChild(div);
 }
