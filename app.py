@@ -143,13 +143,13 @@ def create_handmade():
         materials.append({'name': name})
 
     for index, quantity in enumerate(request.form.getlist('m_quantity')):
-        materials[index]['quantity'] = int(quantity)
+        materials[index]['quantity'] = float(quantity)
 
     for index, total_quantity in enumerate(request.form.getlist('m_total_quantity')):
-        materials[index]['total_quantity'] = int(total_quantity)
+        materials[index]['total_quantity'] = float(total_quantity)
 
     for index, price in enumerate(request.form.getlist('m_price')):
-        materials[index]['price'] = int(price)
+        materials[index]['price'] = float(price)
 
     handmade_price = calculating(materials, tax)
     user_id = session.get('id')
